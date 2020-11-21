@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "241629998074",
+    "firebase_url": "https://medical-cover.firebaseio.com",
+    "project_id": "medical-cover",
+    "storage_bucket": "medical-cover.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241629998074:android:c3f5aaf5c9fae699771243",
+        "android_client_info": {
+          "package_name": "com.atta.medicalcover"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "241629998074-urc0ujbijq0lnnjtu597a0jpmdvoqrj8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.atta.medicalcover",
+            "certificate_hash": "b70924b8991910c61eb2921f99d4c52f67f6f53a"
+          }
+        },
+        {
+          "client_id": "241629998074-eveuhu036iredqum89ht02dcfm7gpgt6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_HyJlnn9RBEhv9ux_EGAZ6ANK-4cs1dc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "241629998074-eveuhu036iredqum89ht02dcfm7gpgt6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
