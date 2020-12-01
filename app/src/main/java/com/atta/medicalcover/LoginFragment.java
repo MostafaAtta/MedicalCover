@@ -2,15 +2,22 @@ package com.atta.medicalcover;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
@@ -23,6 +30,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     String email, password;
 
     private FirebaseAuth mAuth;
+
+    private static final String TAG = "LoginFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +53,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        Toast.makeText(getContext(), currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onClick(View view) {
         if (view == loginBtn){
             email = emailText.getText().toString().trim();
@@ -52,9 +70,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             if(!verify()){
                 return;
             }
-
-            Intent intent = new Intent(getContext(), MainActivity.class);
-            getActivity().startActivity(intent);
+            login();
+            /**/
         }
     }
 
@@ -78,5 +95,32 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         }
 
         return valid;
+    }
+
+    public void login(){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            getActivity().startActivity(intent);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(getContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+
+                            // ...
+                        }
+
+                        // ...
+                    }
+                });
+
     }
 }
