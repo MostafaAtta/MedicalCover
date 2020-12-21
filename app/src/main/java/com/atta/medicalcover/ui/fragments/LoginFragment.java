@@ -112,7 +112,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     private void checkUser(){
-        db.collection("User").whereEqualTo("email", email).get()
+        db.collection("Users").whereEqualTo("email", email).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
