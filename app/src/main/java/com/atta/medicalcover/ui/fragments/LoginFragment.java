@@ -1,4 +1,4 @@
-package com.atta.medicalcover;
+package com.atta.medicalcover.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,12 +12,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.atta.medicalcover.R;
+import com.atta.medicalcover.MainActivity;
+import com.atta.medicalcover.SessionManager;
+import com.atta.medicalcover.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
@@ -31,7 +40,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
 
+    private FirebaseFirestore db;
+
     private static final String TAG = "LoginFragment";
+
+    User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,14 +53,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         root = inflater.inflate(R.layout.fragment_login, container, false);
 
-        loginBtn = root.findViewById(R.id.button_login);
-        loginBtn.setOnClickListener(this);
-
         emailText = root.findViewById(R.id.loginEmail);
         passwordText = root.findViewById(R.id.loginPass);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        loginBtn = root.findViewById(R.id.button_login);
+        loginBtn.setOnClickListener(this);
 
         return root;
     }
@@ -70,8 +84,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             if(!verify()){
                 return;
             }
-            login();
-            /**/
+            checkUser();
+
         }
     }
 
@@ -97,6 +111,32 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         return valid;
     }
 
+    private void checkUser(){
+        db.collection("User").whereEqualTo("email", email).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()){
+
+                            for (QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                                user = documentSnapshot.toObject(User.class);
+                            }
+
+                            login();
+                        }else {
+                            Toast.makeText(getContext(), "User not found, Please Register", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
     public void login(){
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
@@ -105,8 +145,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            //FirebaseUser user = mAuth.getCurrentUser();
 
+                            SessionManager.getInstance(getContext()).login(user);
                             Intent intent = new Intent(getContext(), MainActivity.class);
                             getActivity().startActivity(intent);
                         } else {
