@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    id 'androidx.navigation.safeargs'
 }
 android {
     compileSdkVersion 30
@@ -8,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.atta.medicalcover"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -44,9 +45,19 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.navigation:navigation-fragment:2.3.2'
     implementation 'androidx.navigation:navigation-ui:2.3.2'
+
+    // Feature module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.3.2"
+
+    // Testing Navigation
+    androidTestImplementation "androidx.navigation:navigation-testing:2.3.2"
+
+    // Jetpack Compose Integration
+    implementation "androidx.navigation:navigation-compose:1.0.0-alpha04"
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 

@@ -3,19 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_doctors">
+    app:startDestination="@+id/navigation_home">
 
     <fragment
-        android:id="@+id/navigation_doctors"
-        android:name="com.atta.medicalcover.ui.fragments.DoctorsFragment"
+        android:id="@+id/navigation_home"
+        android:name="com.atta.medicalcover.ui.fragments.HomeFragment"
         android:label="@string/title_doctors"
-        tools:layout="@layout/fragment_pharmacies" />
+        tools:layout="@layout/fragment_pharmacies" >
+        <action
+            android:id="@+id/action_navigation_home_to_specialtiesFragment"
+            app:destination="@id/specialtiesFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_doctorsFragment"
+            app:destination="@id/doctorsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_pharmacies"
         android:name="com.atta.medicalcover.ui.fragments.PharmaciesFragment"
         android:label="@string/title_pharmacies"
-        tools:layout="@layout/fragment_doctors" />
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_services"
@@ -28,4 +35,36 @@
         android:name="com.atta.medicalcover.ui.fragments.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.atta.medicalcover.ui.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/doctorsFragment"
+        android:name="com.atta.medicalcover.ui.fragments.DoctorsFragment"
+        android:label="@string/title_doctors"
+        tools:layout="@layout/fragment_doctors">
+        <argument
+            android:name="specialty"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="clinicType"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/specialtiesFragment"
+        android:name="com.atta.medicalcover.ui.fragments.SpecialtiesFragment"
+        android:label="Specialties"
+        tools:layout="@layout/fragment_specialties" >
+        <action
+            android:id="@+id/action_specialtiesFragment_to_doctorsFragment"
+            app:destination="@id/doctorsFragment" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>
