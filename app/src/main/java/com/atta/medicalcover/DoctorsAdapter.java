@@ -12,7 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.atta.medicalcover.ui.fragments.HomeFragmentDirections;
+import com.atta.medicalcover.ui.fragments.DoctorsFragment;
+import com.atta.medicalcover.ui.fragments.DoctorsFragmentDirections;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,14 +21,17 @@ import java.util.List;
 
 public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.MyViewHolder> {
 
-    private List<Doctor> doctors;
-    private Activity activity;
+    private final List<Doctor> doctors;
+    private final Activity activity;
+    private final DoctorsFragment doctorsFragment;
 
 
-    public DoctorsAdapter(ArrayList<Doctor> data, Activity activity) {
+    public DoctorsAdapter(ArrayList<Doctor> data, Activity activity,
+                          DoctorsFragment doctorsFragment) {
 
         this.doctors = data;
         this.activity = activity;
+        this.doctorsFragment = doctorsFragment;
     }
 
     @NonNull
@@ -77,7 +81,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.MyViewHo
         holder.waitingTime.setText(waitingTime);
         holder.specialities.setText(String.join(", ", specialities));
         holder.degrees.setText(String.join(", ", degrees));
-        holder.reviews.setText(reviews.get(0));
+        holder.reviews.setText(reviews.get(reviews.size()-1));
         holder.satisfied.setText(satisfactionPercent);
 
 
@@ -94,12 +98,19 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.MyViewHo
 
 
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation
-                        .findNavController(activity, R.id.nav_host_fragment)
-                        .navigate(HomeFragmentDirections.actionNavigationHomeToDoctorsFragment(doctor.getName(), null));
+                doctorsFragment.openSheet(doctor);
+            }
+        });
+
+        holder.viewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Navigation.findNavController(activity, R.id.nav_host_fragment)
+                        .navigate(DoctorsFragmentDirections.actionDoctorsFragmentToDoctorDetailsFragment(doctor));
             }
         });
 
@@ -124,7 +135,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.MyViewHo
             super(view);
             doctorName = view.findViewById(R.id.doctor_name_tv);
             doctorImage = view.findViewById(R.id.doctor_image);
-            specialities = view.findViewById(R.id.specialities_tv);
+            specialities = view.findViewById(R.id.clinic_tv);
             degrees = view.findViewById(R.id.degrees_tv);
             waitingTime = view.findViewById(R.id.wait_time_tv);
             experience = view.findViewById(R.id.experience_tv);

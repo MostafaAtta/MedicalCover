@@ -47,21 +47,21 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.navigation:navigation-fragment:2.3.2'
-    implementation 'androidx.navigation:navigation-ui:2.3.2'
+    implementation 'androidx.navigation:navigation-fragment:2.3.3'
+    implementation 'androidx.navigation:navigation-ui:2.3.3'
 
     // Feature module Support
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.3.2"
+    implementation 'androidx.navigation:navigation-dynamic-features-fragment:2.3.3'
 
     // Testing Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:2.3.2"
+    androidTestImplementation 'androidx.navigation:navigation-testing:2.3.3'
 
     // Jetpack Compose Integration
-    implementation "androidx.navigation:navigation-compose:1.0.0-alpha04"
+    implementation "androidx.navigation:navigation-compose:1.0.0-alpha05"
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

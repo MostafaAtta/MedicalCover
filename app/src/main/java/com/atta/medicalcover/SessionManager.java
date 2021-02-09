@@ -14,6 +14,7 @@ public class SessionManager {
 
     private static final String PREF_NAME = "med_pref";
     private static final String KEY_USERNAME = "username";
+    private static final String KEY_USER_ID = "user_id";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PHONE = "phone";
     private static final String KEY_CITY = "city";
@@ -40,6 +41,7 @@ public class SessionManager {
         editor.putString(KEY_USERNAME, user.getFullName());
         editor.putString(KEY_PHONE, user.getPhone());
         editor.putString(KEY_CITY, user.getCity());
+        editor.putString(KEY_USER_ID, user.getUserId());
         editor.putBoolean(KEY_IS_LOGIN, true);
 
         editor.apply();
@@ -49,6 +51,10 @@ public class SessionManager {
     public String getEmail(){
 
         return pref.getString(KEY_EMAIL, "no mail");
+    }
+    public String getUserId(){
+
+        return pref.getString(KEY_USER_ID, "");
     }
 
     public String getUsername(){

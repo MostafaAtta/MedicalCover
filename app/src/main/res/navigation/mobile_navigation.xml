@@ -53,6 +53,12 @@
             android:name="clinicType"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_doctorsFragment_to_doctorDetailsFragment"
+            app:destination="@id/doctorDetailsFragment" />
+        <action
+            android:id="@+id/action_doctorsFragment_to_bookingFragment"
+            app:destination="@id/bookingFragment" />
     </fragment>
     <fragment
         android:id="@+id/specialtiesFragment"
@@ -66,5 +72,32 @@
             android:name="type"
             app:argType="string"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingFragment"
+        android:name="com.atta.medicalcover.ui.fragments.BookingFragment"
+        android:label="Select a time slot"
+        tools:layout="@layout/fragment_booking">
+        <argument
+            android:name="clinic"
+            app:argType="com.atta.medicalcover.Clinic" />
+        <argument
+            android:name="doctor"
+            app:argType="com.atta.medicalcover.Doctor" />
+        <action
+            android:id="@+id/action_bookingFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/doctorDetailsFragment"
+        android:name="com.atta.medicalcover.ui.fragments.DoctorDetailsFragment"
+        android:label="fragment_doctor_details"
+        tools:layout="@layout/fragment_doctor_details" >
+        <argument
+            android:name="doctor"
+            app:argType="com.atta.medicalcover.Doctor" />
+        <action
+            android:id="@+id/action_doctorDetailsFragment_to_bookingFragment"
+            app:destination="@id/bookingFragment" />
     </fragment>
 </navigation>

@@ -120,7 +120,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                             for (QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
                                 user = documentSnapshot.toObject(User.class);
+                                user.setUserId(documentSnapshot.getId());
                             }
+
 
                             login();
                         }else {

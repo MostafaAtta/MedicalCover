@@ -22,15 +22,15 @@ public class SpecialtiesAdapter extends RecyclerView.Adapter<SpecialtiesAdapter.
 
     private List<Specialty> specialties;
     private Activity activity;
-    private boolean view1;
+    private boolean homeView;
     private String type;
 
     public SpecialtiesAdapter(ArrayList<Specialty> data, Activity activity,
-                              boolean view1, String type) {
+                              boolean homeView, String type) {
 
         this.specialties = data;
         this.activity = activity;
-        this.view1 = view1;
+        this.homeView = homeView;
         this.type = type;
     }
 
@@ -38,7 +38,7 @@ public class SpecialtiesAdapter extends RecyclerView.Adapter<SpecialtiesAdapter.
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView;
-        if (view1){
+        if (homeView){
 
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.specialties_item_layout, parent, false);
@@ -66,7 +66,7 @@ public class SpecialtiesAdapter extends RecyclerView.Adapter<SpecialtiesAdapter.
 
         if (specialty.getImage() != null) {
 
-            if (view1){
+            if (homeView){
                 Picasso.get()
                         .load(imageUrl)
                         .resize(80, 80)
@@ -87,7 +87,7 @@ public class SpecialtiesAdapter extends RecyclerView.Adapter<SpecialtiesAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (view1) {
+                if (homeView) {
                     Navigation
                             .findNavController(activity, R.id.nav_host_fragment)
                             .navigate(HomeFragmentDirections.actionNavigationHomeToDoctorsFragment(specialty.getName(), type));

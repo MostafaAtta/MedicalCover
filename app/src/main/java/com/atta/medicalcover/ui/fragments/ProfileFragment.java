@@ -45,7 +45,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        emailTv = root.findViewById(R.id.textView);
+        emailTv = root.findViewById(R.id.bottom_tv);
         String email = SessionManager.getInstance(getContext()).getUsername();
         emailTv.setText(email);
 

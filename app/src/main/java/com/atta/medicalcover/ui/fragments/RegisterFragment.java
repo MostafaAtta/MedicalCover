@@ -217,6 +217,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
 
+
+                        mUser.setUserId(documentReference.getId());
                         SessionManager.getInstance(getContext()).login(mUser);
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         getActivity().startActivity(intent);

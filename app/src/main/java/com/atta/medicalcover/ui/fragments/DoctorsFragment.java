@@ -1,31 +1,35 @@
 package com.atta.medicalcover.ui.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.atta.medicalcover.Clinic;
+import com.atta.medicalcover.ClinicsAdapter;
 import com.atta.medicalcover.Doctor;
 import com.atta.medicalcover.DoctorsAdapter;
 import com.atta.medicalcover.R;
-import com.atta.medicalcover.SpecialtiesAdapter;
-import com.atta.medicalcover.Specialty;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class DoctorsFragment extends Fragment {
 
@@ -35,9 +39,16 @@ public class DoctorsFragment extends Fragment {
 
     FirebaseFirestore db;
 
-    RecyclerView recyclerView;
+    RecyclerView recyclerView, clinicsRecyclerView;
+
+    TextView sheetText;
 
     DoctorsAdapter myAdapter;
+
+    ClinicsAdapter clinicsAAdapter;
+
+    ConstraintLayout constraintLayout;
+    BottomSheetBehavior<ConstraintLayout> bottomSheetBehavior;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,22 +60,45 @@ public class DoctorsFragment extends Fragment {
 
         recyclerView = root.findViewById(R.id.doctors_recyclerView);
 
+        constraintLayout = root.findViewById(R.id.bottomSheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(constraintLayout);
+
+        sheetText = root.findViewById(R.id.bottom_tv);
+        clinicsRecyclerView = root.findViewById(R.id.clinics_list);
+
         db = FirebaseFirestore.getInstance();
         if (type == null){
+            getDoctors(Arrays.asList("Internal", "External", "Internal and External"));
 
-            getDoctors();
         }else {
-            getDoctorsByType();
+            getDoctors(Arrays.asList(type, "Internal and External"));
         }
 
         return root;
     }
 
+    public void openSheet(Doctor doctor){
 
-    public void getDoctors(){
+        if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED ) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            sheetText.setText("Book appointment with " + doctor.getName() + " at");
+            if ((type == null)) {
+                getClinics(Arrays.asList("Internal", "External"), doctor);
+            } else {
+                getClinics(Collections.singletonList(type), doctor);
+            }
+
+        } else {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+    }
+
+
+    public void getDoctors(List<String> types){
 
         db.collection("Doctors")
                 .whereArrayContains("specialities", specialty)
+                .whereIn("type", types)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -74,14 +108,16 @@ public class DoctorsFragment extends Fragment {
                             ArrayList<Doctor> data = new ArrayList<>();
 
                             for (QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
-                                data.add(documentSnapshot.toObject(Doctor.class));
+                                Doctor doctor = documentSnapshot.toObject(Doctor.class);
+                                doctor.setId(documentSnapshot.getId());
+                                data.add(doctor);
 
-                                //add(documentSnapshot.toObject(Specialty.class));
+                                //add(documentSnapshot.toObject(Doctor.class));
                             }
 
                             showRecycler(data);
                         }else {
-                            Toast.makeText(getContext(), "User not found, Please Register", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
@@ -93,28 +129,30 @@ public class DoctorsFragment extends Fragment {
                 });
     }
 
-    public void getDoctorsByType(){
+    public void getClinics(List<String> types, Doctor doctor){
 
-        db.collection("Doctors")
-                .whereArrayContains("specialities", specialty)
-                .whereIn("type", Arrays.asList(type, "internal and external"))
+        db.collection("Clinics")
+                .whereEqualTo("doctorId", doctor.getId())
+                .whereIn("type", types)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if (!queryDocumentSnapshots.isEmpty()){
 
-                            ArrayList<Doctor> data = new ArrayList<>();
+                            ArrayList<Clinic> data = new ArrayList<>();
 
                             for (QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
-                                data.add(documentSnapshot.toObject(Doctor.class));
+                                Clinic clinic = documentSnapshot.toObject(Clinic.class);
+                                clinic.setId(documentSnapshot.getId());
+                                data.add(clinic);
 
-                                //add(documentSnapshot.toObject(Specialty.class));
+                                //addClinic(documentSnapshot.toObject(Clinic.class));
                             }
 
-                            showRecycler(data);
+                            showClinicsRecycler(data, doctor);
                         }else {
-                            Toast.makeText(getContext(), "User not found, Please Register", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
@@ -128,11 +166,37 @@ public class DoctorsFragment extends Fragment {
 
     private void showRecycler(ArrayList<Doctor> data) {
 
-        myAdapter = new DoctorsAdapter(data, getActivity());
+        myAdapter = new DoctorsAdapter(data, getActivity(), this);
 
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
         recyclerView.setAdapter(myAdapter);
+
     }
+
+
+    private void showClinicsRecycler(ArrayList<Clinic> data, Doctor doctor) {
+
+        clinicsAAdapter = new ClinicsAdapter(data, getActivity(), doctor);
+
+        clinicsRecyclerView.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        clinicsRecyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
+        clinicsRecyclerView.setAdapter(clinicsAAdapter);
+    }
+
+
+    private void add(Doctor doctor){
+
+        db.collection("Doctors").document().set(doctor);
+    }
+
+
+    private void addClinic(Clinic clinic){
+
+        db.collection("Clinics").document().set(clinic);
+    }
+
 }

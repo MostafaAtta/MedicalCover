@@ -2,7 +2,7 @@ package com.atta.medicalcover;
 
 public class User {
 
-    String fullName, email, phone, city;
+    String fullName, email, phone, city, userId;
 
     public User() {
     }
@@ -28,5 +28,13 @@ public class User {
 
     public String getCity() {
         return city;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
