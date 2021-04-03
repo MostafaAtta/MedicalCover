@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -41,9 +42,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     Button registerBtn;
 
-    TextInputEditText emailText, passwordText, nameText, phoneText;
+    TextInputEditText emailText, passwordText, nameText, phoneText,
+            membershipText, policyHolderText, policyText, dateOfBirthText;
 
-    String email, password, fullName, city, phone;
+    String email, password, fullName, city, phone, membershipNumber, policyHolder, policyNumber,
+            dateOfBirth, gender;
+
+    RadioGroup genderRadio;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -205,12 +210,17 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     }
 
     private void createUser(){
-        User mUser = new User(fullName, email, phone, city);
+        User mUser = new User(fullName, email, phone, city, membershipNumber, policyHolder, policyNumber);
         Map<String, Object> user = new HashMap<>();
         user.put("fullName", fullName);
         user.put("email", email);
         user.put("phone", phone);
         user.put("city", city);
+        user.put("membershipNumber", membershipNumber);
+        user.put("policyHolder", policyHolder);
+        user.put("policyNumber", policyNumber);
+        user.put("gender", gender);
+        user.put("dateOfBirth", dateOfBirth);
 
         db.collection("Users").add(user)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

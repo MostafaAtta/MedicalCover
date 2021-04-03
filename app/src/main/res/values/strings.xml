@@ -27,4 +27,22 @@
     <string name="view_profile">View Profile</string>
     <string name="book_appointment">Book Appointment</string>
     <string name="booking_list">Book appointment with</string>
+    <string name="company_name">Company Name</string>
+    <string name="policy_no">Policy No.</string>
+    <string name="membership_no">Membership No.</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="gender">Gender:</string>
+    <string name="title_more">More</string>
+    <string name="my_profile">My Profile</string>
+    <string name="my_visits">Doctor Visits</string>
+    <string name="cancel">Cancel</string>
+    <string name="diagnosis">Diagnosis:</string>
+    <string name="medications">Medications:</string>
+    <string name="request_service">Request Service</string>
+    <string name="request_medications">Request Medications</string>
+    <string name="lab_radiology"><![CDATA[Lab & Radiology]]></string>
+    <string name="not_added_yet">Not added yet</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

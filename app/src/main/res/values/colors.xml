@@ -20,4 +20,7 @@
     <color name="gray">#F2F2F2</color>
     <color name="gray_dark">#E0E0E0</color>
     <color name="gray_rating_bar">#BDBDBD</color>
+    <color name="blue">#0D47A1</color>
+    <color name="red">#B71C1C</color>
+    <color name="green">#1B5E20</color>
 </resources>

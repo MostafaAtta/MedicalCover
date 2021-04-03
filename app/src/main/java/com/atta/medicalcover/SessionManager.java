@@ -18,6 +18,11 @@ public class SessionManager {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PHONE = "phone";
     private static final String KEY_CITY = "city";
+    private static final String KEY_DATE_OF_BIRTH = "date_of_birth";
+    private static final String KEY_GENDER = "gender";
+    private static final String KEY_MEMBERSHIP_NO = "membership_number";
+    private static final String KEY_POLICY_HOLDER = "policy_holder";
+    private static final String KEY_POLICY_NO = "policy_number";
     private static final String KEY_IS_LOGIN = "is_login";
 
     //mode 0 private
@@ -42,6 +47,11 @@ public class SessionManager {
         editor.putString(KEY_PHONE, user.getPhone());
         editor.putString(KEY_CITY, user.getCity());
         editor.putString(KEY_USER_ID, user.getUserId());
+        editor.putString(KEY_DATE_OF_BIRTH, user.getDateOfBirth());
+        editor.putString(KEY_GENDER, user.getGender());
+        editor.putString(KEY_MEMBERSHIP_NO, user.getMembershipNumber());
+        editor.putString(KEY_POLICY_NO, user.getPolicyNumber());
+        editor.putString(KEY_POLICY_HOLDER, user.getPolicyHolder());
         editor.putBoolean(KEY_IS_LOGIN, true);
 
         editor.apply();
@@ -61,6 +71,18 @@ public class SessionManager {
         String name = pref.getString(KEY_USERNAME, "no name");
 
         return name;
+    }
+    public String getMembershipNo(){
+
+        return pref.getString(KEY_MEMBERSHIP_NO, "");
+    }
+    public String getPolicyNo(){
+
+        return pref.getString(KEY_POLICY_NO, "");
+    }
+    public String getDateOfBirth(){
+
+        return pref.getString(KEY_DATE_OF_BIRTH, "");
     }
 
     public boolean isLogin(){

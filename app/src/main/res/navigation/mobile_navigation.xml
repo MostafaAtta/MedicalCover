@@ -38,8 +38,15 @@
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.atta.medicalcover.ui.fragments.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:label="More"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_navigation_settings_to_navigation_visits"
+            app:destination="@id/navigation_visits" />
+        <action
+            android:id="@+id/action_navigation_settings_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
     <fragment
         android:id="@+id/doctorsFragment"
         android:name="com.atta.medicalcover.ui.fragments.DoctorsFragment"
@@ -91,7 +98,7 @@
     <fragment
         android:id="@+id/doctorDetailsFragment"
         android:name="com.atta.medicalcover.ui.fragments.DoctorDetailsFragment"
-        android:label="fragment_doctor_details"
+        android:label="Doctor details"
         tools:layout="@layout/fragment_doctor_details" >
         <argument
             android:name="doctor"
@@ -99,5 +106,65 @@
         <action
             android:id="@+id/action_doctorDetailsFragment_to_bookingFragment"
             app:destination="@id/bookingFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_visits"
+        android:name="com.atta.medicalcover.ui.fragments.VisitsFragment"
+        android:label="Doctor Visits"
+        tools:layout="@layout/fragment_visits" >
+        <action
+            android:id="@+id/action_navigation_visits_to_navigation_visit_details"
+            app:destination="@id/navigation_visit_details" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/navigation_visit_details"
+        android:name="com.atta.medicalcover.ui.fragments.VisitDetailsFragment"
+        android:label="Visit Details"
+        tools:layout="@layout/fragment_visit_details" >
+        <argument
+            android:name="appointemnt"
+            app:argType="com.atta.medicalcover.ui.Appointment" />
+        <action
+            android:id="@+id/action_navigation_visit_details_to_navigation_medications_request"
+            app:destination="@id/navigation_medications_request" />
+        <action
+            android:id="@+id/action_navigation_visit_details_to_testsRequestFragment"
+            app:destination="@id/testsRequestFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_medications_request"
+        android:name="com.atta.medicalcover.ui.fragments.MedicationsRequestFragment"
+        android:label="Medications Request"
+        tools:layout="@layout/fragment_medications_request" >
+
+        <argument
+            android:name="visitId"
+            app:argType="string" />
+        <argument
+            android:name="prescriptionId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_navigation_medications_request_to_navigation_settings"
+            app:destination="@id/navigation_settings" />
+    </fragment>
+    <fragment
+        android:id="@+id/testsRequestFragment"
+        android:name="com.atta.medicalcover.ui.fragments.TestsRequestFragment"
+        android:label="fragment_tests_request"
+        tools:layout="@layout/fragment_tests_request" >
+
+        <argument
+            android:name="visitId"
+            app:argType="string" />
+        <argument
+            android:name="prescriptionId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_testsRequestFragment_to_navigation_settings"
+            app:destination="@id/navigation_settings" />
     </fragment>
 </navigation>

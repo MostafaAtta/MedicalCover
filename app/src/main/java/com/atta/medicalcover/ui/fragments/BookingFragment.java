@@ -23,12 +23,14 @@ import com.atta.medicalcover.SessionManager;
 import com.atta.medicalcover.SlotsAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,9 +53,11 @@ public class BookingFragment extends Fragment {
 
     Doctor doctor;
 
-    ArrayList<String> dates = new ArrayList<>();
+    ArrayList<Date> dates = new ArrayList<>();
+    ArrayList<String> datesList = new ArrayList<>();
     ArrayList<String> morningSlots, afternoonSlots, eveningSlots ;
     String selectedDate;
+    Date sDate;
 
     FirebaseFirestore db;
 
@@ -98,9 +102,10 @@ public class BookingFragment extends Fragment {
             Calendar c = Calendar.getInstance();
             c.add(Calendar.DATE, i);
             Date date = c.getTime();
+            dates.add(date);
             String pattern = "EEE, dd MMM";
             SimpleDateFormat format = new SimpleDateFormat(pattern, new Locale("en", "US"));
-            dates.add(format.format(date));
+            datesList.add(format.format(date));
         }
 
         showDatesRecycler();
@@ -128,7 +133,7 @@ public class BookingFragment extends Fragment {
 
     private void showDatesRecycler() {
 
-        DatesAdapter datesAdapter = new DatesAdapter(dates, this, getContext());
+        DatesAdapter datesAdapter = new DatesAdapter(datesList, this, getContext());
 
         daysRecyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -153,8 +158,9 @@ public class BookingFragment extends Fragment {
 
     }
 
-    public void setSelectedDate(String date){
+    public void setSelectedDate(String date, int position){
         selectedDate = date;
+        sDate = dates.get(position);
         selectedDateTv.setText(selectedDate);
 
         checkAppointment();
@@ -198,11 +204,17 @@ public class BookingFragment extends Fragment {
 
 
     public void addAppointments(String timeSlot) {
+
+
+        Timestamp timestamp = new Timestamp(sDate);
         Map<String, Object> appointment = new HashMap<>();
         appointment.put("clinicId", clinic.getId());
+        appointment.put("status", "new");
+        appointment.put("clinicName", clinic.getName());
         appointment.put("date", selectedDate);
         appointment.put("doctorId", doctor.getId());
         appointment.put("timeSlot", timeSlot);
+        appointment.put("timestamp", timestamp);
         appointment.put("userId", SessionManager.getInstance(getContext()).getUserId());
         db.collection("Appointments").add(appointment)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

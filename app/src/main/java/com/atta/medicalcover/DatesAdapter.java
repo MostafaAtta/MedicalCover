@@ -54,7 +54,7 @@ public class DatesAdapter extends RecyclerView.Adapter<DatesAdapter.MyViewHolder
         if(selectedPosition==position){
 
 
-            bookingFragment.setSelectedDate(dates.get(position));
+            bookingFragment.setSelectedDate(dates.get(position), position);
             holder.daysCardView.setBackground(ContextCompat.getDrawable(context, R.drawable.card_border2));
         }
         else{

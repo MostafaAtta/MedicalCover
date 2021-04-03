@@ -55,4 +55,9 @@
     <style name="SwitchCompatTheme" >
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
+
+
+    <style name="ShapeAppearanceOverlay.CircularImageViewShape">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

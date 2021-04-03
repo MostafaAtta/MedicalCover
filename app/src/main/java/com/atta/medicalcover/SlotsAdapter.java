@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.atta.medicalcover.ui.fragments.BookingFragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SlotsAdapter extends RecyclerView.Adapter<SlotsAdapter.MyViewHolder> {
@@ -40,7 +41,25 @@ public class SlotsAdapter extends RecyclerView.Adapter<SlotsAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.slotName.setText(slots.get(position));
+        String timeSlot = slots.get(position);
+        String convertedTimeSlot;
+        int hours = Integer.parseInt(Arrays.asList(timeSlot.split(":")).get(0));
+        String min = Arrays.asList(timeSlot.split(":")).get(1);
+        if (hours <= 12 && hours > 0){
+            convertedTimeSlot = timeSlot + " AM";
+        }else {
+            hours -= 12;
+            if (hours < 10){
+
+                convertedTimeSlot = "0" + hours + ":" + min + " PM";
+            }else {
+
+                convertedTimeSlot = hours + ":" + min + " PM";
+            }
+        }
+        holder.slotName.setText(convertedTimeSlot);
+
+
 
 
 
