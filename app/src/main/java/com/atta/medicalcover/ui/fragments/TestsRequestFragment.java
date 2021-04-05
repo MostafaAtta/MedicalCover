@@ -52,7 +52,7 @@ public class TestsRequestFragment extends Fragment {
         visitId = MedicationsRequestFragmentArgs.fromBundle(getArguments()).getVisitId();
         prescriptionId = MedicationsRequestFragmentArgs.fromBundle(getArguments()).getPrescriptionId();
 
-        recyclerView = root.findViewById(R.id.pharmacies_recyclerView);
+        recyclerView = root.findViewById(R.id.lab_radiology_recyclerView);
         searchView = root.findViewById(R.id.searchView);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -161,7 +161,7 @@ public class TestsRequestFragment extends Fragment {
                     if (task.isSuccessful()){
                         Toast.makeText(getContext(), "Request added successfully", Toast.LENGTH_SHORT).show();
                         Navigation.findNavController(getActivity(), R.id.nav_host_fragment)
-                                .navigate(MedicationsRequestFragmentDirections.actionNavigationMedicationsRequestToNavigationSettings());
+                                .navigate(TestsRequestFragmentDirections.actionTestsRequestFragmentToNavigationSettings());
 
                     }else {
                         Toast.makeText(getContext(), "something wrong, Please Try again later", Toast.LENGTH_SHORT).show();

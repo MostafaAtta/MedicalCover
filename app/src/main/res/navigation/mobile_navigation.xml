@@ -154,7 +154,7 @@
     <fragment
         android:id="@+id/testsRequestFragment"
         android:name="com.atta.medicalcover.ui.fragments.TestsRequestFragment"
-        android:label="fragment_tests_request"
+        android:label="Service Request"
         tools:layout="@layout/fragment_tests_request" >
 
         <argument
