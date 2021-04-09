@@ -298,6 +298,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         user.put("policyNumber", policyNumber);
         user.put("gender", gender);
         user.put("dateOfBirth", dateOfBirth);
+        user.put("type", 4);
 
         db.collection("Users").add(user)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
