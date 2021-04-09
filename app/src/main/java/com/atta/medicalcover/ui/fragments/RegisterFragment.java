@@ -1,5 +1,6 @@
 package com.atta.medicalcover.ui.fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -16,8 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.atta.medicalcover.R;
 import com.atta.medicalcover.MainActivity;
+import com.atta.medicalcover.R;
 import com.atta.medicalcover.SessionManager;
 import com.atta.medicalcover.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +27,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,8 +35,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class RegisterFragment extends Fragment implements View.OnClickListener {
@@ -43,7 +49,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     Button registerBtn;
 
     TextInputEditText emailText, passwordText, nameText, phoneText,
-            membershipText, policyHolderText, policyText, dateOfBirthText;
+            membershipText, policyHolderText, policyText;
+
+    EditText dateOfBirthText;
 
     String email, password, fullName, city, phone, membershipNumber, policyHolder, policyNumber,
             dateOfBirth, gender;
@@ -58,6 +66,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     ArrayAdapter<String> adapter;
 
     Spinner spinner;
+
+    Calendar myCalendar;
+
+    DatePickerDialog.OnDateSetListener date;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,7 +118,44 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        genderRadio = root.findViewById(R.id.genderRadio);
+        genderRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case 0:
+                        gender = "Male";
+                        break;
+                    case 1:
+                        gender = "Female";
+                        break;
+                    default:
+                        gender = "Male";
+                }
+            }
+        });
 
+        membershipText = root.findViewById(R.id.registerMembership);
+        policyHolderText = root.findViewById(R.id.registerCompany);
+        policyText = root.findViewById(R.id.registerPolicy);
+        dateOfBirthText = root.findViewById(R.id.registerBirthday);
+        dateOfBirthText.setOnClickListener(this);
+
+
+
+        myCalendar = Calendar.getInstance();
+
+        date = (view, year, monthOfYear, dayOfMonth) -> {
+            // TODO Auto-generated method stub
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            String myFormat = "MMMM d, yyyy"; //In which you need put here
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            dateOfBirth = sdf.format(myCalendar.getTime());
+            dateOfBirthText.setText(sdf.format(myCalendar.getTime()));
+        };
 
         return root;
     }
@@ -118,7 +167,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
         if (email.isEmpty() || email.equals("")){
-            emailText.setError("Enter you Email");
+            emailText.setError("Enter your Email");
             valid = false;
         }else if (!email.matches(emailPattern)){
             emailText.setError("Enter a valid Email");
@@ -126,7 +175,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         }
 
         if(password.isEmpty() || password.equals("")){
-            passwordText.setError("Enter you Password");
+            passwordText.setError("Enter your Password");
             valid = false;
         } else if(password.length() < 6 || password.length() >10){
             passwordText.setError("password must be between 6 and 10 alphanumeric characters");
@@ -134,19 +183,41 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         }
 
         if (fullName.isEmpty() || fullName.equals("")){
-            nameText.setError("Enter you Name");
+            nameText.setError("Enter your Name");
             valid = false;
         }
 
         if (phone.isEmpty() || phone.equals("")){
-            phoneText.setError("Enter you Phone");
+            phoneText.setError("Enter your Phone");
             valid = false;
         } else if(phone.length() < 11){
             phoneText.setError("Enter a valid phone number");
             valid = false;
         }
 
+        if (membershipNumber.isEmpty() || membershipNumber.equals("")){
+            membershipText.setError("Enter your Membership Number");
+            valid = false;
+        }
 
+        if (policyHolder.isEmpty() || policyHolder.equals("")){
+            policyHolderText.setError("Enter your Company Name");
+            valid = false;
+        }
+
+        if (policyNumber.isEmpty() || policyNumber.equals("")){
+            policyText.setError("Enter your Policy Number");
+            valid = false;
+        }
+
+        if (dateOfBirth.isEmpty() || dateOfBirth.equals("")){
+            dateOfBirthText.setError("Enter your Date Of Birth");
+            valid = false;
+        }
+
+        if (gender.isEmpty() || gender.equals("")){
+            valid = false;
+        }
         return valid;
     }
 
@@ -162,6 +233,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 return;
             }
             checkUser();
+        }else if (view == dateOfBirthText){
+
+            new DatePickerDialog(getContext(), date, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
         }
     }
 
