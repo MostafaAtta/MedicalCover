@@ -54,7 +54,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     EditText dateOfBirthText;
 
     String email, password, fullName, city, phone, membershipNumber, policyHolder, policyNumber,
-            dateOfBirth, gender;
+            dateOfBirth = "", gender = "";
 
     RadioGroup genderRadio;
 
@@ -119,19 +119,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         });
 
         genderRadio = root.findViewById(R.id.genderRadio);
-        genderRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
-                    case 0:
-                        gender = "Male";
-                        break;
-                    case 1:
-                        gender = "Female";
-                        break;
-                    default:
-                        gender = "Male";
-                }
+        genderRadio.setOnCheckedChangeListener((radioGroup, i) -> {
+
+            if (i == R.id.maleBtn) {
+                gender = "Male";
+            }else if (i == R.id.femaleBtn){
+                gender = "Female";
             }
         });
 
@@ -216,6 +209,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         }
 
         if (gender.isEmpty() || gender.equals("")){
+            Toast.makeText(getContext(), "Enter your gender", Toast.LENGTH_SHORT).show();
             valid = false;
         }
         return valid;
@@ -228,6 +222,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             password = passwordText.getText().toString().trim();
             phone = phoneText.getText().toString().trim();
             fullName = nameText.getText().toString().trim();
+            membershipNumber = membershipText.getText().toString().trim();
+            policyHolder = policyHolderText.getText().toString().trim();
+            policyNumber = policyText.getText().toString().trim();
 
             if(!verify()){
                 return;
