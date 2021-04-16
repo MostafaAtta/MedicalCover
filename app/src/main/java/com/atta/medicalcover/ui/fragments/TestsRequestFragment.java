@@ -1,6 +1,11 @@
 package com.atta.medicalcover.ui.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -8,14 +13,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.SearchView;
-import android.widget.Toast;
-
-import com.atta.medicalcover.PharmaciesAdapter;
-import com.atta.medicalcover.Pharmacy;
 import com.atta.medicalcover.R;
 import com.atta.medicalcover.ServicesAdapter;
 import com.atta.medicalcover.SessionManager;

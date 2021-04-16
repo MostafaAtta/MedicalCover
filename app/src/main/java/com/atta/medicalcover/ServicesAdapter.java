@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.atta.medicalcover.ui.fragments.MedicationsRequestFragment;
 import com.atta.medicalcover.ui.fragments.TestsRequestFragment;
 
 import java.util.ArrayList;

@@ -7,20 +7,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atta.medicalcover.ui.fragments.BookingFragment;
-import com.atta.medicalcover.ui.fragments.DoctorsFragmentDirections;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class DatesAdapter extends RecyclerView.Adapter<DatesAdapter.MyViewHolder> {
 
