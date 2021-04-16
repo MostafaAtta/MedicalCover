@@ -53,8 +53,10 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.MyView
 
 
 
+        if (fragment != null) {
 
-        holder.itemView.setOnClickListener(view -> fragment.addTestRequest(testCenter));
+            holder.itemView.setOnClickListener(view -> fragment.addTestRequest(testCenter));
+        }
 
 
 

@@ -50,14 +50,10 @@ public class PharmaciesAdapter extends RecyclerView.Adapter<PharmaciesAdapter.My
 
 
 
+        if (fragment != null) {
 
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fragment.addMedicationsRequest(pharmacy);
-            }
-        });
+            holder.itemView.setOnClickListener(view -> fragment.addMedicationsRequest(pharmacy));
+        }
 
 
 
