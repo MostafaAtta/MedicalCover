@@ -7,7 +7,6 @@ import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.atta.medicalcover.MainActivity;
 import com.atta.medicalcover.R;
 import com.atta.medicalcover.SessionManager;
 

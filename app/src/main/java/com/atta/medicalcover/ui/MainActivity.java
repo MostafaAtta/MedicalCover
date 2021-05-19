@@ -1,4 +1,4 @@
-package com.atta.medicalcover;
+package com.atta.medicalcover.ui;
 
 import android.os.Bundle;
 
@@ -8,6 +8,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.atta.medicalcover.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {

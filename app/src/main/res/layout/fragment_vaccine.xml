@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.VaccineFragment">
+
+    <EditText
+        android:id="@+id/add_vaccine"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/add_vaccine"
+        app:layout_constraintEnd_toStartOf="@+id/add_vaccine_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/add_vaccine_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button_form"
+        android:text="@string/add"
+        app:layout_constraintBottom_toBottomOf="@+id/add_vaccine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/add_vaccine" />
+
+    <TextView
+        android:id="@+id/vaccine_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_vaccine"
+        tools:text="Date: 17/05/2021" />
+
+    <ImageView
+        android:id="@+id/calender_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_baseline_today_24"
+        app:layout_constraintBottom_toBottomOf="@+id/vaccine_date_tv"
+        app:layout_constraintStart_toEndOf="@+id/vaccine_date_tv"
+        app:layout_constraintTop_toTopOf="@+id/vaccine_date_tv" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/allergy_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vaccine_date_tv" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atta.medicalcover.R;
+import com.atta.medicalcover.ui.fragments.VisitsFragment;
 import com.atta.medicalcover.ui.fragments.VisitsFragmentDirections;
 
 import java.util.ArrayList;
@@ -21,11 +22,18 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
 
     private List<Appointment> appointments;
     private Activity activity;
+    private VisitsFragment visitsFragment;
+    private boolean addMedRequest, addTestRequest;
 
-    public AppointmentsAdapter(ArrayList<Appointment> data, Activity activity) {
+    public AppointmentsAdapter(ArrayList<Appointment> data, Activity activity,
+                               VisitsFragment visitsFragment, boolean addMedRequest,
+                               boolean addTestRequest) {
 
         this.appointments = data;
         this.activity = activity;
+        this.visitsFragment = visitsFragment;
+        this.addMedRequest = addMedRequest;
+        this.addTestRequest = addTestRequest;
     }
 
     @NonNull
@@ -67,30 +75,40 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
         String status = appointment.getStatus();
 
         holder.clinicName.setText(clinicName);
+        holder.doctorName.setText(appointment.getDoctorName());
         holder.dateTv.setText(date);
         holder.timeTv.setText(convertedTimeSlot);
         holder.statusTv.setText(status);
 
+
         switch (status){
             case "new":
-                holder.statusTv.setTextColor(R.color.blue);
+                holder.statusTv.setTextColor(activity.getResources().getColor(R.color.blue));
                 break;
             case "confirmed":
             case "Finished":
-                holder.statusTv.setTextColor(R.color.green);
+                holder.statusTv.setTextColor(activity.getResources().getColor(R.color.green));
                 break;
             case "canceled":
-                holder.statusTv.setTextColor(R.color.red);
+                holder.statusTv.setTextColor(activity.getResources().getColor(R.color.red));
                 break;
             default:
-                holder.statusTv.setTextColor(R.color.black);
+                holder.statusTv.setTextColor(activity.getResources().getColor(R.color.black));
         }
 
 
 
 
-        holder.itemView.setOnClickListener(view -> Navigation.findNavController(activity, R.id.nav_host_fragment)
-                .navigate(VisitsFragmentDirections.actionNavigationVisitsToNavigationVisitDetails(appointment)));
+        holder.itemView.setOnClickListener(view -> {
+            if (addMedRequest){
+                visitsFragment.checkForMedicationsRequest(appointment);
+            }else if (addTestRequest){
+                visitsFragment.checkForTestRequest(appointment);
+            }else {
+                Navigation.findNavController(activity, R.id.nav_host_fragment)
+                        .navigate(VisitsFragmentDirections.actionNavigationVisitsToNavigationVisitDetails(appointment));
+            }
+        });
 
 
 
@@ -103,17 +121,19 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView clinicName, dateTv, timeTv, statusTv;
+        TextView doctorName, clinicName, dateTv, timeTv, statusTv;
 
         MyViewHolder(View view) {
             super(view);
-            clinicName = view.findViewById(R.id.doctorNameTv);
+            clinicName = view.findViewById(R.id.clinic_name);
+            doctorName = view.findViewById(R.id.doctorNameTv);
             dateTv = view.findViewById(R.id.date_tv);
             timeTv = view.findViewById(R.id.time_tv);
             statusTv = view.findViewById(R.id.status_tv);
 
         }
     }
+
 
 
 }

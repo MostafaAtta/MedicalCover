@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.atta.medicalcover.R;
-import com.atta.medicalcover.MainActivity;
+import com.atta.medicalcover.ui.MainActivity;
 import com.atta.medicalcover.SessionManager;
 import com.atta.medicalcover.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -122,8 +122,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 user.setUserId(documentSnapshot.getId());
                             }
 
+                            if (user.getType() == 5){
+                                login();
+                            }else {
+                                Toast.makeText(getContext(), "You are not authorized", Toast.LENGTH_SHORT).show();
+                            }
 
-                            login();
+
                         }else {
                             Toast.makeText(getContext(), "User not found, Please Register", Toast.LENGTH_SHORT).show();
                         }

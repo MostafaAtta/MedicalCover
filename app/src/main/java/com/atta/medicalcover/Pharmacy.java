@@ -4,15 +4,16 @@ import java.io.Serializable;
 
 public class Pharmacy implements Serializable {
 
-    String id, name, phone;
+    private String id, name, phone, image;
 
     public Pharmacy(){
 
     }
 
-    public Pharmacy(String name, String phone) {
+    public Pharmacy(String name, String phone, String image) {
         this.name = name;
         this.phone = phone;
+        this.image = image;
     }
 
     public void setId(String id) {
@@ -29,5 +30,9 @@ public class Pharmacy implements Serializable {
 
     public String getPhone() {
         return phone;
+    }
+
+    public String getImage() {
+        return image;
     }
 }

@@ -18,7 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.atta.medicalcover.MainActivity;
+import com.atta.medicalcover.ui.MainActivity;
 import com.atta.medicalcover.R;
 import com.atta.medicalcover.SessionManager;
 import com.atta.medicalcover.User;
@@ -79,6 +79,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+
+        initiateViews();
+
+        return root;
+    }
+
+    private void initiateViews() {
         db = FirebaseFirestore.getInstance();
 
         spinner = root.findViewById(R.id.location_spinner);
@@ -134,7 +141,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         dateOfBirthText.setOnClickListener(this);
 
 
-
         myCalendar = Calendar.getInstance();
 
         date = (view, year, monthOfYear, dayOfMonth) -> {
@@ -148,8 +154,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             dateOfBirth = sdf.format(myCalendar.getTime());
             dateOfBirthText.setText(sdf.format(myCalendar.getTime()));
         };
-
-        return root;
     }
 
 
@@ -294,7 +298,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         user.put("policyNumber", policyNumber);
         user.put("gender", gender);
         user.put("dateOfBirth", dateOfBirth);
-        user.put("type", 4);
+        user.put("type", 5);
 
         db.collection("Users").add(user)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

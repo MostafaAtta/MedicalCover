@@ -4,12 +4,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atta.medicalcover.ui.fragments.MedicationsRequestFragment;
+import com.atta.medicalcover.ui.fragments.PharmaciesFragmentDirections;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +22,12 @@ public class PharmaciesAdapter extends RecyclerView.Adapter<PharmaciesAdapter.My
 
     private List<Pharmacy> pharmacies;
     private List<Pharmacy> pharmaciesFullList;
-    private MedicationsRequestFragment fragment;
+    private MedicationsRequestFragment medFragment;
 
-    public PharmaciesAdapter(ArrayList<Pharmacy> data, MedicationsRequestFragment fragment) {
+    public PharmaciesAdapter(ArrayList<Pharmacy> data, MedicationsRequestFragment medFragment) {
 
         this.pharmacies = data;
-        this.fragment = fragment;
+        this.medFragment = medFragment;
         pharmaciesFullList = new ArrayList<>(data);
     }
 
@@ -31,8 +35,16 @@ public class PharmaciesAdapter extends RecyclerView.Adapter<PharmaciesAdapter.My
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext())
+        View itemView;
+
+        if (medFragment == null){
+
+            itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.pharmacies_item_layout2, parent, false);
+        }else {
+            itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.pharmacies_item_layout, parent, false);
+        }
 
 
         return new MyViewHolder(itemView);
@@ -48,11 +60,22 @@ public class PharmaciesAdapter extends RecyclerView.Adapter<PharmaciesAdapter.My
 
         holder.pharmacyName.setText(name);
 
+        if (medFragment != null) {
 
+            holder.itemView.setOnClickListener(view -> medFragment.addMedicationsRequest(pharmacy));
+        }else {
+            holder.itemView.setOnClickListener(view ->
+                    Navigation.findNavController(holder.itemView)
+                    .navigate(PharmaciesFragmentDirections
+                            .actionNavigationPharmaciesToPharmacyDetailsFragment(pharmacy, pharmacy.getName()))
+            );
 
-        if (fragment != null) {
+            Picasso.get()
+                    .load(pharmacy.getImage())
+                    .resize(80, 80)
+                    .centerCrop()
+                    .into(holder.imageView);
 
-            holder.itemView.setOnClickListener(view -> fragment.addMedicationsRequest(pharmacy));
         }
 
 
@@ -67,10 +90,12 @@ public class PharmaciesAdapter extends RecyclerView.Adapter<PharmaciesAdapter.My
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView pharmacyName;
+        ImageView imageView;
 
         MyViewHolder(View view) {
             super(view);
             pharmacyName = view.findViewById(R.id.pharmacy_name);
+            imageView = view.findViewById(R.id.pharmacy_img);
 
         }
     }

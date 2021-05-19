@@ -18,11 +18,13 @@ import com.atta.medicalcover.Pharmacy;
 import com.atta.medicalcover.R;
 import com.atta.medicalcover.SessionManager;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -143,10 +145,17 @@ public class MedicationsRequestFragment extends Fragment {
     }
 
     public void addMedicationsRequest(Pharmacy pharmacy){
+
+        Timestamp timestamp = new Timestamp(new Date());
+
         Map<String, Object> request = new HashMap<>();
         request.put("appointmentId", visitId);
         request.put("prescriptionId", prescriptionId);
+        request.put("pharmacyId", pharmacy.getId());
+        request.put("pharmacyName", pharmacy.getName());
+        request.put("timestamp", timestamp);
         request.put("patientId", SessionManager.getInstance(getContext()).getUserId());
+        request.put("patientName", SessionManager.getInstance(getContext()).getUsername());
         request.put("status", "pending approval");
 
 

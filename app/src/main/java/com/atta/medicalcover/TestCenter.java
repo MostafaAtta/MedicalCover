@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class TestCenter implements Serializable {
 
-    String id, name, phone, type;
+    private String id, name, phone, type, image;
 
     public TestCenter(){
 
@@ -34,5 +34,9 @@ public class TestCenter implements Serializable {
 
     public String getType() {
         return type;
+    }
+
+    public String getImage() {
+        return image;
     }
 }

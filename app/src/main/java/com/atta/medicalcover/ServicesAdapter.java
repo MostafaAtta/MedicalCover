@@ -4,12 +4,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atta.medicalcover.ui.fragments.ServicesFragmentDirections;
 import com.atta.medicalcover.ui.fragments.TestsRequestFragment;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +35,16 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext())
+        View itemView;
+        if (fragment == null){
+
+            itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.test_centers_item_layout2, parent, false);
+        }else {
+            itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.test_centers_item_layout, parent, false);
 
+        }
 
         return new MyViewHolder(itemView);
     }
@@ -56,6 +67,18 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.MyView
         if (fragment != null) {
 
             holder.itemView.setOnClickListener(view -> fragment.addTestRequest(testCenter));
+        }else {
+            holder.itemView.setOnClickListener(view ->
+                    Navigation.findNavController(holder.itemView)
+                            .navigate(ServicesFragmentDirections
+                                    .actionNavigationServicesToCenterDetailsFragment(testCenter, testCenter.getName()))
+            );
+
+            Picasso.get()
+                    .load(testCenter.getImage())
+                    .resize(80, 80)
+                    .centerCrop()
+                    .into(holder.imageView);
         }
 
 
@@ -70,11 +93,13 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView centerName, centerType;
+        ImageView imageView;
 
         MyViewHolder(View view) {
             super(view);
-            centerName = view.findViewById(R.id.center_name);
+            centerName = view.findViewById(R.id.radiology_title);
             centerType = view.findViewById(R.id.center_type);
+            imageView = view.findViewById(R.id.center_img);
 
         }
     }

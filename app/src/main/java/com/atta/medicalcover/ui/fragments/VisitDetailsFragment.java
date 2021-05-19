@@ -99,17 +99,17 @@ public class VisitDetailsFragment extends Fragment {
 
         switch (appointment.getStatus()){
             case "new":
-                statusTv.setTextColor(R.color.blue);
+                statusTv.setTextColor(getActivity().getResources().getColor(R.color.blue));
                 break;
             case "confirmed":
             case "Finished":
-                statusTv.setTextColor(R.color.green);
+                statusTv.setTextColor(getActivity().getResources().getColor(R.color.green));
                 break;
             case "canceled":
-                statusTv.setTextColor(R.color.red);
+                statusTv.setTextColor(getActivity().getResources().getColor(R.color.red));
                 break;
             default:
-                statusTv.setTextColor(R.color.black);
+                statusTv.setTextColor(getActivity().getResources().getColor(R.color.black));
         }
 
         diagnosisTv = root.findViewById(R.id.diagnosis_tv);

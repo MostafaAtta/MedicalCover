@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
@@ -22,19 +23,65 @@
         android:id="@+id/navigation_pharmacies"
         android:name="com.atta.medicalcover.ui.fragments.PharmaciesFragment"
         android:label="@string/title_pharmacies"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_pharmacies_to_pharmacyDetailsFragment"
+            app:destination="@id/pharmacyDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_services"
         android:name="com.atta.medicalcover.ui.fragments.ServicesFragment"
         android:label="@string/title_services"
-        tools:layout="@layout/fragment_services" />
+        tools:layout="@layout/fragment_services" >
+        <action
+            android:id="@+id/action_navigation_services_to_centerDetailsFragment"
+            app:destination="@id/centerDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.atta.medicalcover.ui.fragments.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/labTestsFragment"
+        android:name="com.atta.medicalcover.ui.fragments.LabTestsFragment"
+        android:label="@string/lab_tests"
+        tools:layout="@layout/fragment_lab_tests" >
+        <action
+            android:id="@+id/action_labTestsFragment_to_newLabTestFragment"
+            app:destination="@id/newLabTestFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newLabTestFragment"
+        android:name="com.atta.medicalcover.ui.fragments.NewLabTestFragment"
+        android:label="@string/add_new_lab_test"
+        tools:layout="@layout/fragment_new_lab_test" >
+        <action
+            android:id="@+id/action_newLabTestFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/radiologyFragment"
+        android:name="com.atta.medicalcover.ui.fragments.RadiologyFragment"
+        android:label="@string/radiology"
+        tools:layout="@layout/fragment_radiology" >
+        <action
+            android:id="@+id/action_radiologyFragment_to_newRadiologyFragment"
+            app:destination="@id/newRadiologyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newRadiologyFragment"
+        android:name="com.atta.medicalcover.ui.fragments.NewRadiologyFragment"
+        android:label="@string/add_new_radiology"
+        tools:layout="@layout/fragment_new_radiology" >
+        <action
+            android:id="@+id/action_newRadiologyFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.atta.medicalcover.ui.fragments.SettingsFragment"
@@ -46,6 +93,33 @@
         <action
             android:id="@+id/action_navigation_settings_to_navigation_profile"
             app:destination="@id/navigation_profile" />
+        <action
+            android:id="@+id/action_navigation_settings_to_labTestsFragment"
+            app:destination="@id/labTestsFragment" />
+        <action
+            android:id="@+id/action_navigation_settings_to_radiologyFragment"
+            app:destination="@id/radiologyFragment" />
+        <action
+            android:id="@+id/action_navigation_settings_to_allergyFragment"
+            app:destination="@id/allergyFragment" />
+        <action
+            android:id="@+id/action_navigation_settings_to_surgeryFragment"
+            app:destination="@id/surgeryFragment" />
+        <action
+            android:id="@+id/action_navigation_settings_to_vaccineFragment"
+            app:destination="@id/vaccineFragment" />
+        <action
+            android:id="@+id/action_navigation_settings_to_bloodGlucoseFragment"
+            app:destination="@id/bloodGlucoseFragment" />
+        <action
+            android:id="@+id/action_navigation_settings_to_bloodPressureFragment"
+            app:destination="@id/bloodPressureFragment" />
+        <action
+            android:id="@+id/action_navigation_settings_to_familyHistoryFragment"
+            app:destination="@id/familyHistoryFragment" />
+        <action
+            android:id="@+id/action_navigation_settings_to_requestsFragment"
+            app:destination="@id/requestsFragment" />
     </fragment>
     <fragment
         android:id="@+id/doctorsFragment"
@@ -116,6 +190,17 @@
         <action
             android:id="@+id/action_navigation_visits_to_navigation_visit_details"
             app:destination="@id/navigation_visit_details" />
+        <argument
+            android:name="pharmacy"
+            app:argType="com.atta.medicalcover.Pharmacy"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_navigation_visits_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <argument
+            android:name="testCenter"
+            app:argType="com.atta.medicalcover.TestCenter"
+            app:nullable="true" />
     </fragment>
 
 
@@ -166,5 +251,111 @@
         <action
             android:id="@+id/action_testsRequestFragment_to_navigation_settings"
             app:destination="@id/navigation_settings" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pharmacyDetailsFragment"
+        android:name="com.atta.medicalcover.ui.fragments.PharmacyDetailsFragment"
+        android:label="{pharmacy_name}"
+        tools:layout="@layout/fragment_pharmacy_details">
+        <argument
+            android:name="pharmacy"
+            app:argType="com.atta.medicalcover.Pharmacy" />
+        <argument
+            android:name="pharmacy_name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_pharmacyDetailsFragment_to_navigation_visits"
+            app:destination="@id/navigation_visits" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/centerDetailsFragment"
+        android:name="com.atta.medicalcover.ui.fragments.CenterDetailsFragment"
+        android:label="{center_name}"
+        tools:layout="@layout/fragment_center_details">
+        <argument
+            android:name="center"
+            app:argType="com.atta.medicalcover.TestCenter" />
+        <argument
+            android:name="center_name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_centerDetailsFragment_to_navigation_visits"
+            app:destination="@id/navigation_visits" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/allergyFragment"
+        android:name="com.atta.medicalcover.ui.fragments.AllergyFragment"
+        android:label="@string/allergy"
+        tools:layout="@layout/fragment_allergy" />
+    <fragment
+        android:id="@+id/surgeryFragment"
+        android:name="com.atta.medicalcover.ui.fragments.SurgeryFragment"
+        android:label="@string/surgery"
+        tools:layout="@layout/fragment_surgery" >
+        <action
+            android:id="@+id/action_surgeryFragment_to_newSurgeryFragment"
+            app:destination="@id/newSurgeryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/vaccineFragment"
+        android:name="com.atta.medicalcover.ui.fragments.VaccineFragment"
+        android:label="@string/vaccine"
+        tools:layout="@layout/fragment_vaccine" />
+    <fragment
+        android:id="@+id/bloodPressureFragment"
+        android:name="com.atta.medicalcover.ui.fragments.BloodPressureFragment"
+        android:label="@string/blood_pressure"
+        tools:layout="@layout/fragment_blood_pressure" />
+    <fragment
+        android:id="@+id/bloodGlucoseFragment"
+        android:name="com.atta.medicalcover.ui.fragments.BloodGlucoseFragment"
+        android:label="@string/blood_glucose"
+        tools:layout="@layout/fragment_blood_glucose" />
+    <fragment
+        android:id="@+id/newSurgeryFragment"
+        android:name="com.atta.medicalcover.ui.fragments.NewSurgeryFragment"
+        android:label="fragment_new_surgery"
+        tools:layout="@layout/fragment_new_surgery" >
+        <action
+            android:id="@+id/action_newSurgeryFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/familyHistoryFragment"
+        android:name="com.atta.medicalcover.ui.fragments.FamilyHistoryFragment"
+        android:label="fragment_family_history"
+        tools:layout="@layout/fragment_family_history" />
+    <fragment
+        android:id="@+id/requestsFragment"
+        android:name="com.atta.medicalcover.ui.fragments.RequestsFragment"
+        android:label="fragment_requests"
+        tools:layout="@layout/fragment_requests" >
+        <action
+            android:id="@+id/action_requestsFragment_to_medicationRequestDetailsFragment"
+            app:destination="@id/medicationRequestDetailsFragment" />
+        <action
+            android:id="@+id/action_requestsFragment_to_testRequestDetailsFragment"
+            app:destination="@id/testRequestDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/medicationRequestDetailsFragment"
+        android:name="com.atta.medicalcover.ui.fragments.MedicationRequestDetailsFragment"
+        android:label="Request details"
+        tools:layout="@layout/fragment_medication_request_details">
+        <argument
+            android:name="request"
+            app:argType="com.atta.medicalcover.MedicationRequest" />
+    </fragment>
+    <fragment
+        android:id="@+id/testRequestDetailsFragment"
+        android:name="com.atta.medicalcover.ui.fragments.TestRequestDetailsFragment"
+        android:label="Request details"
+        tools:layout="@layout/fragment_test_request_details">
+        <argument
+            android:name="request"
+            app:argType="com.atta.medicalcover.TestRequest" />
     </fragment>
 </navigation>

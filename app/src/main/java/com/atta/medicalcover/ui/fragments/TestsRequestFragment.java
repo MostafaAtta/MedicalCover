@@ -18,11 +18,13 @@ import com.atta.medicalcover.ServicesAdapter;
 import com.atta.medicalcover.SessionManager;
 import com.atta.medicalcover.TestCenter;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -145,10 +147,16 @@ public class TestsRequestFragment extends Fragment {
     }
 
     public void addTestRequest(TestCenter testCenter) {
+
+        Timestamp timestamp = new Timestamp(new Date());
         Map<String, Object> request = new HashMap<>();
         request.put("appointmentId", visitId);
         request.put("prescriptionId", prescriptionId);
+        request.put("centerId", testCenter.getId());
+        request.put("centerName", testCenter.getName());
+        request.put("timestamp", timestamp);
         request.put("patientId", SessionManager.getInstance(getContext()).getUserId());
+        request.put("patientName", SessionManager.getInstance(getContext()).getUsername());
         request.put("status", "pending approval");
 
 

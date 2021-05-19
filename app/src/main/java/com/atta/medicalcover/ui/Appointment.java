@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class Appointment implements Serializable {
 
-    private String id, clinicName, clinicId, date, timeSlot, doctorId, status, userId;
+    private String id, clinicName, clinicId, date, timeSlot, doctorId, doctorName, status, userId;
 
     private Timestamp timestamp;
 
@@ -66,5 +66,9 @@ public class Appointment implements Serializable {
 
     public String getDoctorId() {
         return doctorId;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
     }
 }
