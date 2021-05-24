@@ -4,62 +4,131 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.atta.medicalcover.FamilyHistory;
+import com.atta.medicalcover.FamilyHistoryAdapter;
 import com.atta.medicalcover.R;
+import com.atta.medicalcover.SessionManager;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FamilyHistoryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class FamilyHistoryFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    View root;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    FirebaseFirestore db;
 
-    public FamilyHistoryFragment() {
-        // Required empty public constructor
-    }
+    Button addFamilyHistory;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FamilyHistoryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FamilyHistoryFragment newInstance(String param1, String param2) {
-        FamilyHistoryFragment fragment = new FamilyHistoryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    EditText familyMember, description;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    RecyclerView familyHistoryRecycler;
+
+    FamilyHistoryAdapter myAdapter;
+
+    ArrayList<FamilyHistory> familyHistories;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_family_history, container, false);
+        root = inflater.inflate(R.layout.fragment_family_history, container, false);
+
+        initiateViews();
+
+        return root;
+    }
+
+
+
+    private void initiateViews() {
+
+        addFamilyHistory = root.findViewById(R.id.add_family_history_btn);
+        familyMember = root.findViewById(R.id.family_member);
+        description = root.findViewById(R.id.description);
+
+        addFamilyHistory.setOnClickListener(view ->
+                addFamilyHistory(familyMember.getText().toString().trim(),
+                        description.getText().toString().trim())
+        );
+
+        familyHistoryRecycler = root.findViewById(R.id.family_history_recyclerView);
+
+        db = FirebaseFirestore.getInstance();
+
+        getFamilyHistories();
+    }
+
+    private void addFamilyHistory(String familyMember, String description) {
+
+        Map<String, Object> allergyRecord = new HashMap<>();
+        allergyRecord.put("member", familyMember);
+        allergyRecord.put("description", description);
+
+        db.collection("Users")
+                .document(SessionManager.getInstance(getContext()).getUserId())
+                .collection("Family Member")
+                .document()
+                .set(allergyRecord)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
+                    if (familyHistories != null)
+                        familyHistories.clear();
+                    getFamilyHistories();
+
+                })
+                .addOnFailureListener(e -> Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show());
+    }
+
+
+    public void getFamilyHistories(){
+        db.collection("Users")
+                .document(SessionManager.getInstance(getContext()).getUserId())
+                .collection("Family Member")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+
+                    if (!queryDocumentSnapshots.isEmpty()){
+                        familyHistories = new ArrayList<>();
+                        for (QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                            FamilyHistory familyHistory = documentSnapshot.toObject(FamilyHistory.class);
+                            familyHistory.setId(documentSnapshot.getId());
+                            familyHistories.add(familyHistory);
+                            //updateDoctorName(labTestRecord);
+                        }
+
+                        showRecycler(familyHistories);
+                    }
+
+
+                })
+                .addOnFailureListener(e -> Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show());
+
+    }
+
+
+    private void showRecycler(ArrayList<FamilyHistory> familyHistories) {
+        myAdapter = new FamilyHistoryAdapter(familyHistories, this);
+
+        familyHistoryRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.VERTICAL, false));
+
+        familyHistoryRecycler.setAdapter(myAdapter);
+    }
+
+    public void deleteAllergy(int i) {
+
+        familyHistories.remove(i);
     }
 }

@@ -84,4 +84,13 @@
     <string name="chronic_diseases">Chronic Diseases</string>
     <string name="blood_type">Blood type</string>
     <string name="for_all">All</string>
+    <string name="systolic">Systolic</string>
+    <string name="diastolic">Diastolic</string>
+    <string name="pulse">Pulse</string>
+    <string name="type">Type:</string>
+    <string name="fasting">Fasting</string>
+    <string name="postprandial">Postprandial</string>
+    <string name="random">Random</string>
+    <string name="family_member">Family member</string>
+    <string name="description">description</string>
 </resources>

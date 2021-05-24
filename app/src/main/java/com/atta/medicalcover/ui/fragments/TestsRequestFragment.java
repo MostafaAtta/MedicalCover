@@ -158,6 +158,7 @@ public class TestsRequestFragment extends Fragment {
         request.put("patientId", SessionManager.getInstance(getContext()).getUserId());
         request.put("patientName", SessionManager.getInstance(getContext()).getUsername());
         request.put("status", "pending approval");
+        request.put("type", testCenter.getType());
 
 
         db.collection("Test Requests")
