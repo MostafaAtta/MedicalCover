@@ -93,4 +93,10 @@
     <string name="random">Random</string>
     <string name="family_member">Family member</string>
     <string name="description">description</string>
+    <string name="place2">Place:</string>
+    <string name="doctor2">Doctor:</string>
+    <string name="result2">Result:</string>
+    <string name="title2">Title:</string>
+    <string name="date">Date:</string>
+    <string name="note2">Note:</string>
 </resources>

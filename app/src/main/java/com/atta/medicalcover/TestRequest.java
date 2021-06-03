@@ -6,7 +6,8 @@ import java.io.Serializable;
 
 public class TestRequest implements Serializable {
 
-    private String id, appointmentId, centerId, centerName, patientId, patientName, prescriptionId, status, type;
+    private String id, appointmentId, centerId, centerName, patientId, patientName, prescriptionId,
+            status, type, doctorId, doctorName;
 
     private Timestamp timestamp;
 
@@ -16,7 +17,7 @@ public class TestRequest implements Serializable {
 
     public TestRequest(String appointmentId, String centerId, String centerName, String patientId,
                        String patientName, String prescriptionId, String status, Timestamp timestamp,
-                       String type) {
+                       String type, String doctorId, String doctorName) {
         this.appointmentId = appointmentId;
         this.centerId = centerId;
         this.patientId = patientId;
@@ -26,6 +27,8 @@ public class TestRequest implements Serializable {
         this.centerName = centerName;
         this.patientName = patientName;
         this.type = type;
+        this.doctorId = doctorId;
+        this.doctorName = doctorName;
     }
 
     public String getId() {
@@ -70,6 +73,14 @@ public class TestRequest implements Serializable {
 
     public String getPatientName() {
         return patientName;
+    }
+
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
     }
 
 

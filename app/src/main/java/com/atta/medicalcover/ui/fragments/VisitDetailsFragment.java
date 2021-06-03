@@ -185,8 +185,8 @@ public class VisitDetailsFragment extends Fragment {
         if (prescription != null) {
             Navigation.findNavController(view)
                     .navigate(VisitDetailsFragmentDirections
-                            .actionNavigationVisitDetailsToTestsRequestFragment(appointment.getId(),
-                                    prescription.getId()));
+                            .actionNavigationVisitDetailsToTestsRequestFragment(prescription.getId(),
+                                    appointment));
         }else {
             Toast.makeText(getContext(), "prescription not added yet", Toast.LENGTH_SHORT).show();
         }

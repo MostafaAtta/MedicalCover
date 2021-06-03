@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atta.medicalcover.ui.fragments.SurgeryFragmentDirections;
 import com.google.firebase.Timestamp;
 
 import java.text.SimpleDateFormat;
@@ -60,9 +62,10 @@ public class SurgeryAdapter extends RecyclerView.Adapter<SurgeryAdapter.MyViewHo
 
 
 
-        holder.itemView.setOnClickListener(view -> {
-            //doctorsFragment.openSheet(labTestRecords)
-        });
+        holder.itemView.setOnClickListener(view ->
+            Navigation.findNavController(view)
+                    .navigate(SurgeryFragmentDirections.actionSurgeryFragmentToSurgeryDetailsFragment(surgery))
+        );
 
 
 

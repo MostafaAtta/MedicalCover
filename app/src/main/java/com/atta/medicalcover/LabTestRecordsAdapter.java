@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atta.medicalcover.ui.fragments.LabTestsFragmentDirections;
 import com.google.firebase.Timestamp;
 
 import java.text.SimpleDateFormat;
@@ -36,7 +38,7 @@ public class LabTestRecordsAdapter extends RecyclerView.Adapter<LabTestRecordsAd
 
 
             itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.lab_test_item_layout, parent, false);
+                    .inflate(R.layout.lab_test_record_item_layout, parent, false);
 
 
 
@@ -59,9 +61,12 @@ public class LabTestRecordsAdapter extends RecyclerView.Adapter<LabTestRecordsAd
 
 
 
-        holder.itemView.setOnClickListener(view -> {
-            //doctorsFragment.openSheet(labTestRecords)
-        });
+
+        holder.itemView.setOnClickListener(v ->
+
+                Navigation.findNavController(v)
+                        .navigate(LabTestsFragmentDirections.actionLabTestsFragmentToLabTestDetailsFragment(labTestRecord))
+        );
 
 
 

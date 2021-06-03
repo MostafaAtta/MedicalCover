@@ -17,6 +17,7 @@ import com.atta.medicalcover.R;
 import com.atta.medicalcover.ServicesAdapter;
 import com.atta.medicalcover.SessionManager;
 import com.atta.medicalcover.TestCenter;
+import com.atta.medicalcover.ui.Appointment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,7 +39,9 @@ public class TestsRequestFragment extends Fragment {
 
     ServicesAdapter myAdapter;
 
-    String visitId, prescriptionId;
+    Appointment appointment;
+
+    String prescriptionId;
 
     SearchView searchView;
 
@@ -48,8 +51,8 @@ public class TestsRequestFragment extends Fragment {
         // Inflate the layout for this fragment
         root =  inflater.inflate(R.layout.fragment_tests_request, container, false);
 
-        visitId = MedicationsRequestFragmentArgs.fromBundle(getArguments()).getVisitId();
-        prescriptionId = MedicationsRequestFragmentArgs.fromBundle(getArguments()).getPrescriptionId();
+        appointment = TestsRequestFragmentArgs.fromBundle(getArguments()).getVisit();
+        prescriptionId = TestsRequestFragmentArgs.fromBundle(getArguments()).getPrescriptionId();
 
         recyclerView = root.findViewById(R.id.lab_radiology_recyclerView);
         searchView = root.findViewById(R.id.searchView);
@@ -150,10 +153,12 @@ public class TestsRequestFragment extends Fragment {
 
         Timestamp timestamp = new Timestamp(new Date());
         Map<String, Object> request = new HashMap<>();
-        request.put("appointmentId", visitId);
+        request.put("appointmentId", appointment.getId());
         request.put("prescriptionId", prescriptionId);
         request.put("centerId", testCenter.getId());
         request.put("centerName", testCenter.getName());
+        request.put("doctorId", appointment.getDoctorId());
+        request.put("doctorName", appointment.getDoctorName());
         request.put("timestamp", timestamp);
         request.put("patientId", SessionManager.getInstance(getContext()).getUserId());
         request.put("patientName", SessionManager.getInstance(getContext()).getUsername());

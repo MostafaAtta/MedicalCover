@@ -9,21 +9,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MedicalCover2">
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_doctors" />
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/title_activity_main">
-        </activity>
+            android:label="@string/title_activity_main" />
         <activity
             android:name=".ui.AuthActivity"
-            android:theme="@style/Theme.MedicalCover">
-
-
-        </activity>
-
+            android:theme="@style/Theme.MedicalCover" />
         <activity
             android:name=".ui.SplashScreenActivity"
             android:theme="@style/Theme.MedicalCover">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

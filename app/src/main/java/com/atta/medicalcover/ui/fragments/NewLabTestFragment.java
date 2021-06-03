@@ -159,7 +159,7 @@ public class NewLabTestFragment extends Fragment {
         imagesRecyclerView = root.findViewById(R.id.img_recycler);
 
         testsRecyclerView = root.findViewById(R.id.recyclerView2);
-        labTestAdapter = new LabTestAdapter(labTests, getContext());
+        labTestAdapter = new LabTestAdapter(labTests, getContext(), false);
         testsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
 

@@ -9,6 +9,8 @@ public class User {
 
     private ArrayList<String> chronicDiseases;
 
+    private ArrayList<String> tokens;
+
     private boolean isPregnant, isChronicDiseases;
 
     private int type;
@@ -31,7 +33,7 @@ public class User {
     public User(String fullName, String email, String phone, String city, String dateOfBirth,
                 String gender, String membershipNumber, String policyHolder, String policyNumber,
                 String bloodType, ArrayList<String> chronicDiseases, boolean isPregnant,
-                boolean isChronicDiseases, int type) {
+                boolean isChronicDiseases, int type, ArrayList<String> tokens) {
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
@@ -45,6 +47,7 @@ public class User {
         this.chronicDiseases = chronicDiseases;
         this.isPregnant = isPregnant;
         this.isChronicDiseases = isChronicDiseases;
+        this.tokens = tokens;
         this.type = type;
     }
 
@@ -110,5 +113,13 @@ public class User {
 
     public boolean getIsChronicDiseases() {
         return isChronicDiseases;
+    }
+
+    public ArrayList<String> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(ArrayList<String> tokens) {
+        this.tokens = tokens;
     }
 }

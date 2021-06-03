@@ -68,4 +68,8 @@ public class RadiologyRecord implements Serializable {
     public ArrayList<String> getImages() {
         return images;
     }
+
+    public String getResult() {
+        return result;
+    }
 }
