@@ -25,7 +25,6 @@ public class PharmaciesAdapter extends RecyclerView.Adapter<PharmaciesAdapter.My
     private MedicationsRequestFragment medFragment;
 
     public PharmaciesAdapter(ArrayList<Pharmacy> data, MedicationsRequestFragment medFragment) {
-
         this.pharmacies = data;
         this.medFragment = medFragment;
         pharmaciesFullList = new ArrayList<>(data);

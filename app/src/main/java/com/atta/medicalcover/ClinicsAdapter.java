@@ -1,6 +1,5 @@
 package com.atta.medicalcover;
 
-import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atta.medicalcover.ui.fragments.DoctorDetailsFragmentDirections;
 import com.atta.medicalcover.ui.fragments.DoctorsFragmentDirections;
 
 import java.text.SimpleDateFormat;
@@ -22,13 +22,13 @@ import java.util.Locale;
 public class ClinicsAdapter extends RecyclerView.Adapter<ClinicsAdapter.MyViewHolder> {
 
     private List<Clinic> clinics;
-    private Activity activity;
+    private boolean fragment;
     private Doctor doctor;
 
-    public ClinicsAdapter(ArrayList<Clinic> data, Activity activity, Doctor doctor) {
+    public ClinicsAdapter(ArrayList<Clinic> data, boolean fragment, Doctor doctor) {
 
         this.clinics = data;
-        this.activity = activity;
+        this.fragment = fragment;
         this.doctor = doctor;
     }
 
@@ -73,14 +73,17 @@ public class ClinicsAdapter extends RecyclerView.Adapter<ClinicsAdapter.MyViewHo
 
 
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Navigation.findNavController(activity, R.id.nav_host_fragment)
+        holder.itemView.setOnClickListener(view ->{
+            if (fragment) {
+                Navigation.findNavController(view)
                         .navigate(DoctorsFragmentDirections.actionDoctorsFragmentToBookingFragment(clinic, doctor));
+            }else {
+                Navigation.findNavController(view)
+                        .navigate(DoctorDetailsFragmentDirections.actionDoctorDetailsFragmentToBookingFragment(clinic, doctor));
             }
         });
+
+
 
 
 

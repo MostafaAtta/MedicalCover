@@ -178,7 +178,7 @@ public class DoctorsFragment extends Fragment {
 
     private void showClinicsRecycler(ArrayList<Clinic> data, Doctor doctor) {
 
-        clinicsAAdapter = new ClinicsAdapter(data, getActivity(), doctor);
+        clinicsAAdapter = new ClinicsAdapter(data, true, doctor);
 
         clinicsRecyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
