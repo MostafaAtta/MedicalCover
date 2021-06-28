@@ -22,7 +22,12 @@
             android:resource="@drawable/ic_doctors" />
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/title_activity_main" />
+            android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="MainActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.AuthActivity"
             android:theme="@style/Theme.MedicalCover" />
