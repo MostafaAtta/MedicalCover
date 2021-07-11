@@ -69,11 +69,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }else if(view == externalCardView){
 
             Navigation.findNavController(view)
-                    .navigate(HomeFragmentDirections.actionNavigationHomeToSpecialtiesFragment("external"));
+                    .navigate(HomeFragmentDirections.actionNavigationHomeToSpecialtiesFragment("External"));
         }else if(view == internalCardView){
 
             Navigation.findNavController(view)
-                    .navigate(HomeFragmentDirections.actionNavigationHomeToSpecialtiesFragment("internal"));
+                    .navigate(HomeFragmentDirections.actionNavigationHomeToSpecialtiesFragment("Internal"));
         }
     }
 
