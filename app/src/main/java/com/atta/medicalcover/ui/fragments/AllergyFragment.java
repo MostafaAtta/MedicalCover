@@ -123,7 +123,15 @@ public class AllergyFragment extends Fragment {
     }
 
     public void deleteAllergy(int i) {
-
-        allergies.remove(i);
+        db.collection("Users")
+                .document(SessionManager.getInstance(getContext()).getUserId())
+                .collection("Allergy")
+                .document(allergies.get(i).getId())
+                .delete()
+                .addOnSuccessListener(unused -> {
+                    allergies.remove(i);
+                    myAdapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

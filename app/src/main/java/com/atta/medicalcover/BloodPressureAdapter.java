@@ -63,8 +63,8 @@ public class BloodPressureAdapter extends RecyclerView.Adapter<BloodPressureAdap
         holder.bloodPressureDate.setText(format.format(date));
 
         holder.delete.setOnClickListener(view ->{
-            bloodPressureFragment.deleteAllergy(position);
-            notifyDataSetChanged();
+            bloodPressureFragment.deleteRecord(position);
+            //notifyDataSetChanged();
         });
 
 

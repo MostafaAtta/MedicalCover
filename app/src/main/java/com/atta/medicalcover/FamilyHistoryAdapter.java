@@ -53,7 +53,7 @@ public class FamilyHistoryAdapter extends RecyclerView.Adapter<FamilyHistoryAdap
 
         holder.delete.setOnClickListener(view ->{
             familyHistoryFragment.deleteAllergy(position);
-            notifyDataSetChanged();
+            //notifyDataSetChanged();
         });
 
 

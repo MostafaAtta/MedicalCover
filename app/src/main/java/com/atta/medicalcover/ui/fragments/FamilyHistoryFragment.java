@@ -128,7 +128,15 @@ public class FamilyHistoryFragment extends Fragment {
     }
 
     public void deleteAllergy(int i) {
-
-        familyHistories.remove(i);
+        db.collection("Users")
+                .document(SessionManager.getInstance(getContext()).getUserId())
+                .collection("Family Member")
+                .document(familyHistories.get(i).getId())
+                .delete()
+                .addOnSuccessListener(unused -> {
+                    familyHistories.remove(i);
+                    myAdapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

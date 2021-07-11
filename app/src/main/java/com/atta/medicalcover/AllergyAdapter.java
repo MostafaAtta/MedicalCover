@@ -52,7 +52,7 @@ public class AllergyAdapter extends RecyclerView.Adapter<AllergyAdapter.MyViewHo
 
         holder.delete.setOnClickListener(view ->{
             allergyFragment.deleteAllergy(position);
-            notifyDataSetChanged();
+            //notifyDataSetChanged();
         });
 
 

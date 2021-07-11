@@ -62,7 +62,7 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.MyViewHo
 
         holder.delete.setOnClickListener(view ->{
             vaccineFragment.deleteAllergy(position);
-            notifyDataSetChanged();
+            //notifyDataSetChanged();
         });
 
 

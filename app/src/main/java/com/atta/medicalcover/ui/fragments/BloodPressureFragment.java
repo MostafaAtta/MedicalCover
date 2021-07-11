@@ -211,8 +211,16 @@ public class BloodPressureFragment extends Fragment {
         bloodPressureRecycler.setAdapter(myAdapter);
     }
 
-    public void deleteAllergy(int i) {
-
-        bloodPressures.remove(i);
+    public void deleteRecord(int i) {
+        db.collection("Users")
+                .document(SessionManager.getInstance(getContext()).getUserId())
+                .collection("Blood Pressure")
+                .document(bloodPressures.get(i).getId())
+                .delete()
+                .addOnSuccessListener(unused -> {
+                    bloodPressures.remove(i);
+                    myAdapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

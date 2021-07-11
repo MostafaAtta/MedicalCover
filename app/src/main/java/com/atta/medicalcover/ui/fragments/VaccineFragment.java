@@ -186,6 +186,15 @@ public class VaccineFragment extends Fragment {
 
     public void deleteAllergy(int i) {
 
-        vaccines.remove(i);
+        db.collection("Users")
+                .document(SessionManager.getInstance(getContext()).getUserId())
+                .collection("Vaccine")
+                .document(vaccines.get(i).getId())
+                .delete()
+                .addOnSuccessListener(unused -> {
+                    vaccines.remove(i);
+                    myAdapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }
