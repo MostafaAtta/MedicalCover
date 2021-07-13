@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 public class Prescription {
 
-    String id, appointmentId, patientName, patientId, policyNo, membershipNo, policyHolder, diagnosis;
+    String id, appointmentId, patientName, patientId, policyNo, membershipNo, policyHolder,
+            diagnosis, note;
 
     Timestamp creationDate;
 
@@ -78,5 +79,9 @@ public class Prescription {
 
     public ArrayList<Medication> getMedications() {
         return medications;
+    }
+
+    public String getNote() {
+        return note;
     }
 }

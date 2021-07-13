@@ -18,10 +18,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.atta.medicalcover.ui.MainActivity;
 import com.atta.medicalcover.R;
 import com.atta.medicalcover.SessionManager;
 import com.atta.medicalcover.User;
+import com.atta.medicalcover.ui.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,6 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
@@ -248,7 +249,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if (queryDocumentSnapshots.isEmpty()){
-                            register();
+                            checkInsuranceDetails();
                         }else {
                             Toast.makeText(getContext(), "User already exist, Please Login", Toast.LENGTH_SHORT).show();
                         }
@@ -261,6 +262,47 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     }
                 });
 
+    }
+
+
+    private void checkInsuranceDetails() {
+        db.collection("Insurance Details")
+                .whereEqualTo("policyHolder", policyHolder)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()){
+                        for (QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
+                            if (policyNumber.equals(documentSnapshot.getData().get("policyNumber").toString())){
+                                getCompanyMembers(documentSnapshot.getId());
+                            }else {
+                                Toast.makeText(getContext(), "Wrong policy number", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }else {
+                        Toast.makeText(getContext(), "Wrong Company name", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
+    }
+
+    private void getCompanyMembers(String companyId) {
+        db.collection("Insurance Details")
+                .document(companyId)
+                .collection("members")
+                .whereEqualTo("membershipNumber", membershipNumber)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()){
+                        register();
+                    }else {
+                        Toast.makeText(getContext(), "Wrong membership number", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
     }
 
     private void register(){

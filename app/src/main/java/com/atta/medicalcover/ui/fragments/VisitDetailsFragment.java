@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -28,7 +29,9 @@ public class VisitDetailsFragment extends Fragment {
     View root;
 
     TextView clinicName, dateTv, timeTv, statusTv, doctorNameTv, diagnosisTv, medicationsTv,
-            labRadiologyTv;
+            labRadiologyTv, noteTv;
+
+    Group noteGroup;
 
     FirebaseFirestore db;
 
@@ -62,6 +65,8 @@ public class VisitDetailsFragment extends Fragment {
         statusTv = root.findViewById(R.id.status_tv);
         doctorNameTv = root.findViewById(R.id.doctorNameTv);
         cancelBtn = root.findViewById(R.id.cancel_btn);
+        noteTv = root.findViewById(R.id.noteText);
+        noteGroup = root.findViewById(R.id.noteGroup);
 
         clinicName.setText(appointment.getClinicName());
         if (appointment.getStatus().equalsIgnoreCase("Finished") ||
@@ -120,7 +125,6 @@ public class VisitDetailsFragment extends Fragment {
         requestServiceBtn = root.findViewById(R.id.requestServiceBtn);
         requestMedicationsBtn = root.findViewById(R.id.requestMedicationsBtn);
 
-
         getPrescription();
     }
 
@@ -157,9 +161,20 @@ public class VisitDetailsFragment extends Fragment {
                             }
                         }
 
-                        requestServiceBtn.setOnClickListener(view -> requestService(view) );
-                        requestMedicationsBtn.setOnClickListener(view -> requestMedications(view));
+                        requestServiceBtn.setOnClickListener(this::requestService);
+                        requestMedicationsBtn.setOnClickListener(this::requestMedications);
+
+                        if (prescription.getNote() != null){
+                            if (!prescription.getNote().equals("")){
+                                noteTv.setText(prescription.getNote());
+                            }else {
+                                noteGroup.setVisibility(View.GONE);
+                            }
+                        }else {
+                            noteGroup.setVisibility(View.GONE);
+                        }
                     }else {
+                        noteGroup.setVisibility(View.GONE);
                         Toast.makeText(getContext(), "No prescription add to this visit", Toast.LENGTH_SHORT).show();
                     }
 
@@ -171,7 +186,7 @@ public class VisitDetailsFragment extends Fragment {
 
 
     private void requestMedications(View view) {
-        if (prescription != null) {
+        if (prescription != null && !prescription.getMedications().isEmpty()) {
             Navigation.findNavController(view)
                     .navigate(VisitDetailsFragmentDirections
                             .actionNavigationVisitDetailsToNavigationMedicationsRequest(appointment.getId(),
@@ -182,7 +197,7 @@ public class VisitDetailsFragment extends Fragment {
     }
 
     private void requestService(View view) {
-        if (prescription != null) {
+        if (prescription != null && !prescription.getMedicalTests().isEmpty()) {
             Navigation.findNavController(view)
                     .navigate(VisitDetailsFragmentDirections
                             .actionNavigationVisitDetailsToTestsRequestFragment(prescription.getId(),
