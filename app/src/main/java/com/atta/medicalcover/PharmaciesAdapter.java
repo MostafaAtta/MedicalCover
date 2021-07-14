@@ -71,6 +71,7 @@ public class PharmaciesAdapter extends RecyclerView.Adapter<PharmaciesAdapter.My
 
             Picasso.get()
                     .load(pharmacy.getImage())
+                    .placeholder(R.drawable.ic_pharmacy)
                     .resize(80, 80)
                     .centerCrop()
                     .into(holder.imageView);

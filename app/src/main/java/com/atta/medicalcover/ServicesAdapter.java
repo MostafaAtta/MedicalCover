@@ -76,6 +76,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.MyView
 
             Picasso.get()
                     .load(testCenter.getImage())
+                    .placeholder(R.drawable.ic_microscope)
                     .resize(80, 80)
                     .centerCrop()
                     .into(holder.imageView);
